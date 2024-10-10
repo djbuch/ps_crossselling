@@ -304,7 +304,7 @@ class Ps_Crossselling extends Module implements WidgetInterface
                 AND product_shop.active = 1
                 '.(Group::isFeatureActive() ? $sql_groups_where : '').'
                 ORDER BY RAND()
-                LIMIT '.Configuration::get('CROSSSELLING_NBR')
+                LIMIT '.Tools::getValue('CROSSSELLING_NBR')
             );
         }
 
