@@ -254,7 +254,7 @@ class Ps_Crossselling extends Module implements WidgetInterface
         if (0 < count($orders)) {
             $list = '';
             foreach ($orders as $order) {
-                $list .= (int)$order['id_order'].',';
+                $list .= $order['id_order'].',';
             }
             $list = rtrim($list, ',');
             $list_product_ids = join(',', $productIds);
@@ -264,7 +264,7 @@ class Ps_Crossselling extends Module implements WidgetInterface
                 LEFT JOIN `'._DB_PREFIX_.'category_product` cp ON (cp.`id_category` = product_shop.id_category_default AND cp.id_product = product_shop.id_product)
                 LEFT JOIN `'._DB_PREFIX_.'category_group` cg ON (cp.`id_category` = cg.`id_category`)';
                 $groups = FrontController::getCurrentCustomerGroups();
-                $sql_groups_where = 'AND cg.`id_group` '. (count($groups) ? 'IN ('.implode(',', $groups) . ')' : '=' . (int)Group::getCurrent()->id);
+                $sql_groups_where = 'AND cg.`id_group` '. (count($groups) ? 'IN ('.implode(',', $groups) . ')' : '=' . Group::getCurrent()->id);
             }
 
             $order_products = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
@@ -304,7 +304,7 @@ class Ps_Crossselling extends Module implements WidgetInterface
                 AND product_shop.active = 1
                 '.(Group::isFeatureActive() ? $sql_groups_where : '').'
                 ORDER BY RAND()
-                LIMIT '.(int)Configuration::get('CROSSSELLING_NBR')
+                LIMIT '.Configuration::get('CROSSSELLING_NBR')
             );
         }
 
